@@ -1,0 +1,64 @@
+{
+  "tables": [
+    {
+      "name": "Airports",
+      "columns": [
+        { "name": "airport_id", "type": "SERIAL", "constraints": ["NOT NULL", "PRIMARY KEY"] },
+        { "name": "airport_name", "type": "VARCHAR(255)", "constraints": ["NOT NULL"] },
+        { "name": "city", "type": "VARCHAR(255)", "constraints": ["NOT NULL"] },
+        { "name": "country", "type": "VARCHAR(255)", "constraints": ["NOT NULL"] },
+        { "name": "airport_iata_code", "type": "CHAR(2)", "constraints": ["NULL"] },
+        { "name": "airport_icao_code", "type": "CHAR(3)", "constraints": ["NULL"] },
+        { "name": "latitude", "type": "DECIMAL(9, 6)", "constraints": ["NOT NULL"] },
+        { "name": "longitude", "type": "DECIMAL(9, 6)", "constraints": ["NOT NULL"] },
+        { "name": "timezone", "type": "VARCHAR(50)", "constraints": ["NOT NULL"] }
+      ]
+    },
+    {
+      "name": "Airlines",
+      "columns": [
+        { "name": "airline_id", "type": "SERIAL", "constraints": ["PRIMARY KEY"] },
+        { "name": "airline_name", "type": "VARCHAR(255)", "constraints": ["NOT NULL"] },
+        { "name": "airline_iata_code", "type": "CHAR(2)", "constraints": [] },
+        { "name": "airline_icao_code", "type": "CHAR(3)", "constraints": [] },
+        { "name": "callsign", "type": "VARCHAR(50)", "constraints": [] },
+        { "name": "country", "type": "VARCHAR(255)", "constraints": ["NOT NULL"] },
+        { "name": "active", "type": "CHAR(1)", "constraints": [] }
+      ]
+    },
+    {
+      "name": "Airplanes",
+      "columns": [
+        { "name": "airplane_id", "type": "SERIAL", "constraints": ["PRIMARY KEY"] },
+        { "name": "airplane_name", "type": "VARCHAR(255)", "constraints": ["NOT NULL"] },
+        { "name": "airplane__iata_code", "type": "CHAR(3)", "constraints": ["NOT NULL"] },
+        { "name": "airplane_icao_code", "type": "CHAR(4)", "constraints": [] }
+      ]
+    },
+    {
+      "name": "Flights",
+      "columns": [
+        { "name": "flight_id", "type": "SERIAL", "constraints": ["PRIMARY KEY"] },
+        { "name": "airline_id", "type": "INT", "constraints": [] },
+        { "name": "departure_airport_id", "type": "INT", "constraints": ["NOT NULL"] },
+        { "name": "arrival_airport_id", "type": "INT", "constraints": ["NOT NULL"] },
+        { "name": "stops", "type": "INT", "constraints": ["NOT NULL"] },
+        { "name": "codeshare", "type": "INT", "constraints": [] }
+      ],
+      "foreign_keys": [
+        {
+          "column": "airline_id",
+          "references": { "table": "Airlines", "column": "airline_id" }
+        },
+        {
+          "column": "departure_airport_id",
+          "references": { "table": "Airports", "column": "airport_id" }
+        },
+        {
+          "column": "arrival_airport_id",
+          "references": { "table": "Airports", "column": "airport_id" }
+        }
+      ]
+    }
+  ]
+}
